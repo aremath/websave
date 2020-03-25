@@ -14,7 +14,8 @@ def get_urls(csv_fname):
     with open(csv_fname, newline="") as csvfile:
         r = csv.reader(csvfile)
         for row in r:
-            l.append((row[0], row[1], row[2]))
+            if len(row) == 3:
+                l.append((row[0], row[1], row[2]))
     return l
 
 def save_webpage(url, fname):
