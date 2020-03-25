@@ -30,12 +30,12 @@ def save_webpage(url, fname):
         with open(fname, "wb") as f:
             f.write(page)
     except:
-        print("{} could not be opened".format(url))
+        print("The URL {} could not be opened".format(url))
 
 def save_all(csv_fname, folder):
     urls = get_urls(csv_fname)
     for university, category, u in urls:
-        print(u)
+        print("URL: {}".format(u))
         # Make the url safe for a filename
         f = quote(u, "")
         time = datetime.now()
