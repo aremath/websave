@@ -3,6 +3,7 @@ import os
 import csv
 import time
 import urllib
+import errno
 from urllib.request import urlopen
 from urllib.parse import quote
 from datetime import datetime
@@ -13,13 +14,16 @@ def get_urls(csv_fname):
     with open(csv_fname, newline="") as csvfile:
         r = csv.reader(csvfile)
         for row in r:
-            l.append(row[0])
+            l.append((row[0], row[1], row[2]))
     return l
 
 def save_webpage(url, fname):
     try:
+        # Read the page
         html = urlopen(url)
         page = html.read()
+        # Save it
+        os.makedirs(os.path.dirname(fname), exist_ok=True)
         with open(fname, "wb") as f:
             f.write(page)
     except:
@@ -27,7 +31,7 @@ def save_webpage(url, fname):
 
 def save_all(csv_fname, folder):
     urls = get_urls(csv_fname)
-    for u in urls:
+    for university, category, u in urls:
         print(u)
         # Make the url safe for a filename
         f = quote(u, "")
@@ -37,8 +41,9 @@ def save_all(csv_fname, folder):
         s = s.split(".")[0]
         # Underscore for slightly
         time_stamp = s.replace(" ", "_")
-        f = time_stamp + f + ".html"
-        fname = os.path.join(folder, f)
+        f = university + "_" + category + "_" + f + time_stamp + ".html"
+        print(f)
+        fname = os.path.join(folder, university, f)
         save_webpage(u, fname)
 
 def save_all_loop(csv_fname, folder, period):
