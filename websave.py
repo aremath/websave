@@ -8,6 +8,7 @@ from urllib.request import urlopen
 from urllib.parse import quote
 from datetime import datetime
 import argparse
+import ssl
 
 def get_urls(csv_fname):
     l = []
@@ -21,7 +22,8 @@ def get_urls(csv_fname):
 def save_webpage(url, fname):
     try:
         # Read the page
-        html = urlopen(url)
+        s = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        html = urlopen(url, context=s)
         page = html.read()
         # Save it
         os.makedirs(os.path.dirname(fname), exist_ok=True)
@@ -43,7 +45,6 @@ def save_all(csv_fname, folder):
         # Underscore for slightly
         time_stamp = s.replace(" ", "_")
         f = university + "_" + category + "_" + f + time_stamp + ".html"
-        print(f)
         fname = os.path.join(folder, university, f)
         save_webpage(u, fname)
 
