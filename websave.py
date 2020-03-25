@@ -44,6 +44,7 @@ def save_all(csv_fname, folder):
         s = s.split(".")[0]
         # Underscore for slightly
         time_stamp = s.replace(" ", "_")
+        time_stamp = time_stamp.replace(":", "-")
         f = university + "_" + category + "_" + f + time_stamp + ".html"
         fname = os.path.join(folder, university, f)
         save_webpage(u, fname)
