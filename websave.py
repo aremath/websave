@@ -51,7 +51,9 @@ def save_all(csv_fname, folder, fails_csv):
         # Underscore for slightly
         time_stamp = s.replace(" ", "_")
         time_stamp = time_stamp.replace(":", "-")
-        f = university + "_" + category + "_" + f + time_stamp + ".html"
+        #f = university + "_" + category + "_" + f + time_stamp + ".html"
+        # Note: filenames may not be unique
+        f = university + "_" + category + "_" + time_stamp + ".html"
         fname = os.path.join(folder, university, f)
         saved = save_webpage(u, fname)
         if not saved:
